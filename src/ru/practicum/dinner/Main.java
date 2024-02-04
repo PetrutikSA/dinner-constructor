@@ -42,7 +42,11 @@ public class Main {
         System.out.println("Введите название блюда:");
         String dishName = scanner.nextLine();
 
-        dc.addNewDish(dishType, dishName);
+        if (dc.checkDish(dishType, dishName)) {
+            System.out.println("Данное блюдо уже присутствует в базе.");
+        } else {
+            dc.addNewDish(dishType, dishName);
+        }
     }
 
     private static void generateDishCombo() {
@@ -79,6 +83,12 @@ public class Main {
 
         // Генерирация комбинации блюд
         ArrayList<ArrayList<String>> combos = dc.createListOfCombos(numberOfCombos, dishTypesList);
+
+        // Уведомление пользователя что удалось найти меньше комбо, чем запрашивалось.
+        if (combos.size() < numberOfCombos) {
+            System.out.println("Удалось найти только " + combos.size() + " вариантов.");
+            System.out.println("Для того чтобы получить больше вариантов дополните базу данных новыми блюдами.");
+        }
 
         // Вывод на экран
         for (int i = 0; i < combos.size(); i++) {
